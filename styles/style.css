@@ -191,6 +191,12 @@ html {
   cursor: pointer;
   border: none;
 }
+.slider__btn:hover,
+.item__btn:hover {
+  background-color: var(--color-border);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 1rem 2rem -1rem rgba(0, 0, 0, 0.5);
+}
 .hidden {
   transform: scale(0);
   opacity: 0;
