@@ -136,6 +136,11 @@ function slider() {
 
   btnRight.addEventListener("click", nextPage);
   btnLeft.addEventListener("click", prevPage);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") nextPage();
+    if (e.key === "ArrowLeft") prevPage();
+    else return;
+  });
 
   function init() {
     goToPage(currSlide);
