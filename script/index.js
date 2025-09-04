@@ -76,9 +76,22 @@ galleryContainer.addEventListener("click", function (e) {
 });
 
 // Cerrar el modal
+
+function closeModal() {
+  overlay.classList.add("hidden");
+}
 sliderBtn.addEventListener("click", function (e) {
   e.preventDefault();
-  overlay.classList.add("hidden");
+  closeModal();
+});
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") closeModal();
+  return;
+});
+
+overlay.addEventListener("click", function (e) {
+  if (e.target.classList.contains("overlay")) closeModal();
+  return;
 });
 
 function slider() {
@@ -140,6 +153,14 @@ function slider() {
     if (e.key === "ArrowRight") nextPage();
     if (e.key === "ArrowLeft") prevPage();
     else return;
+  });
+
+  dotContainer.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("dots__dot")) return;
+
+    currSlide = +e.target.dataset.slide;
+    goToPage(currSlide);
+    activeDot(currSlide);
   });
 
   function init() {
