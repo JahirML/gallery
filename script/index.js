@@ -1,27 +1,23 @@
 import { getImages } from "./data.js";
 
 const galleryContainer = document.querySelector(".container__gallery");
-const btnImage = document.querySelector(".item__btn");
 const sliderContainer = document.querySelector(".slider__container");
 const sliderBtn = document.querySelector(".slider__btn");
 const overlay = document.querySelector(".overlay");
 
-// document.addEventListener("DOMContentLoaded", StartApp);
+document.addEventListener("DOMContentLoaded", StartApp);
 let allFullGif = [];
 let currentIndex;
-StartApp();
 async function StartApp() {
   const data = await getImages();
   galleryContainer.innerHTML = "";
-  // sliderContainer.innerHTML = "";
   allFullGif = data;
-  console.log(allFullGif);
 
   data.map((img) => {
     const { id, title, thumbnail } = img;
 
     const markup = `
-    <figure class="gallery_item gallery_item--active " data-id="${id}">
+    <figure class="gallery_item" data-id="${id}">
         <picture class="image__container">
         <img
           loading="lazy"
@@ -65,9 +61,21 @@ function renderModalImages() {
   });
 }
 
+// marcar la card activa
+function activeCard(index) {
+  // <figure class="gallery_item" data-id="${id}">
+  console.log(index);
+  document
+    .querySelectorAll(".gallery_item")
+    .forEach((el) => el.classList.remove("is-active"));
+
+  document
+    .querySelector(`.gallery_item[data-id="${index}"]`)
+    .classList.add("is-active");
+}
+
 galleryContainer.addEventListener("click", function (e) {
   if (!e.target.classList.contains("item__btn")) return;
-
   const figure = e.target.closest(".gallery_item");
   const id = figure.dataset.id;
   currentIndex = id;
@@ -94,12 +102,12 @@ overlay.addEventListener("click", function (e) {
   return;
 });
 
+// Funcionalidad del slider
 function slider() {
   const slides = document.querySelectorAll(".slide");
   const btnLeft = document.querySelector(".slider__btn--left");
   const btnRight = document.querySelector(".slider__btn--right");
   const dotContainer = document.querySelector(".dots");
-  console.log(slides);
 
   const maxSlide = slides.length;
   let currSlide = +currentIndex;
@@ -141,6 +149,8 @@ function slider() {
   }
 
   function goToPage(index) {
+    currentIndex = index;
+    activeCard(currentIndex);
     slides.forEach(
       (slide, i) =>
         (slide.style.transform = `translateX(${100 * (i - index)}%)`)
